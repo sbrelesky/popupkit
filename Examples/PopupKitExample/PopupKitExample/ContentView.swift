@@ -15,17 +15,57 @@ struct ContentView: View {
     @State private var showGeneric = false
 
     var body: some View {
-        VStack(spacing: 20) {
-            Text("PopupKit Examples")
-                .font(.title2.bold())
+        ZStack {
+            LinearGradient(
+                colors: [demoAccent.opacity(0.2), Color(.systemBackground)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
 
-            Button("Show Error") { showError = true }
-            Button("Show Success") { showSuccess = true }
-            Button("Show Loading") { startLoadingDemo() }
-            Button("Show Confirmation") { showGeneric = true }
+            VStack(spacing: 14) {
+                VStack(spacing: 8) {
+                    Text("PopupKit Examples")
+                        .font(.largeTitle.bold())
+                    Text("Four branded popup types, one modifier.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.bottom, 28)
+
+                Button {
+                    showError = true
+                } label: {
+                    Label("Show Error", systemImage: "exclamationmark.triangle.fill")
+                        .frame(maxWidth: .infinity)
+                }
+
+                Button {
+                    showSuccess = true
+                } label: {
+                    Label("Show Success", systemImage: "checkmark.circle.fill")
+                        .frame(maxWidth: .infinity)
+                }
+
+                Button {
+                    startLoadingDemo()
+                } label: {
+                    Label("Show Loading", systemImage: "arrow.triangle.2.circlepath")
+                        .frame(maxWidth: .infinity)
+                }
+
+                Button {
+                    showGeneric = true
+                } label: {
+                    Label("Show Confirmation", systemImage: "trash.fill")
+                        .frame(maxWidth: .infinity)
+                }
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(demoAccent)
+            .controlSize(.large)
+            .padding(.horizontal, 48)
         }
-        .buttonStyle(.bordered)
-        .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .popupKit(isPresented: $showError, content: .error(message: "Network request failed."))
         .popupKit(isPresented: $showSuccess, content: .success(message: "Your profile was updated."))
