@@ -121,11 +121,47 @@ struct PopupContainerView: View {
     private var popupView: some View {
         switch content {
         case .error(let message):
-            ErrorPopupView(message: message, theme: theme, dismiss: dismiss)
+            if position == .center {
+                ErrorPopupView(message: message, theme: theme, dismiss: dismiss)
+            } else {
+                PopupBannerView(
+                    icon: theme.errorIcon,
+                    iconColor: .red,
+                    message: message,
+                    theme: theme,
+                    isDismissible: true,
+                    accessibilityLabel: content.accessibilityLabel,
+                    dismiss: dismiss
+                )
+            }
         case .success(let message):
-            SuccessPopupView(message: message, theme: theme, dismiss: dismiss)
+            if position == .center {
+                SuccessPopupView(message: message, theme: theme, dismiss: dismiss)
+            } else {
+                PopupBannerView(
+                    icon: theme.successIcon,
+                    iconColor: .green,
+                    message: message,
+                    theme: theme,
+                    isDismissible: true,
+                    accessibilityLabel: content.accessibilityLabel,
+                    dismiss: dismiss
+                )
+            }
         case .loading(let message):
-            LoadingPopupView(message: message, theme: theme)
+            if position == .center {
+                LoadingPopupView(message: message, theme: theme)
+            } else {
+                PopupBannerView(
+                    icon: nil,
+                    iconColor: .clear,
+                    message: message,
+                    theme: theme,
+                    isDismissible: false,
+                    accessibilityLabel: content.accessibilityLabel,
+                    dismiss: dismiss
+                )
+            }
         case .generic(let title, let message, let primaryAction, let secondaryAction):
             GenericPopupView(
                 title: title,
