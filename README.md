@@ -26,7 +26,7 @@ Or in `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "<repo-url>", from: "1.0.0")
+    .package(url: "https://github.com/sbrelesky/popupkit", from: "1.0.0")
 ]
 ```
 
