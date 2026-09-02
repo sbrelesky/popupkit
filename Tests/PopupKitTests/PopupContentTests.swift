@@ -37,4 +37,22 @@ final class PopupContentTests: XCTestCase {
             "Loading: Uploading"
         )
     }
+
+    func test_error_defaultPosition_isTop() {
+        XCTAssertEqual(PopupContent.error(message: "Network unavailable").defaultPosition, .top)
+    }
+
+    func test_success_defaultPosition_isTop() {
+        XCTAssertEqual(PopupContent.success(message: "Saved").defaultPosition, .top)
+    }
+
+    func test_loading_defaultPosition_isCenter() {
+        XCTAssertEqual(PopupContent.loading().defaultPosition, .center)
+    }
+
+    func test_generic_defaultPosition_isCenter() {
+        let action = PopupAction(label: "OK") {}
+        let content = PopupContent.generic(title: "Confirm", message: "Are you sure?", primaryAction: action)
+        XCTAssertEqual(content.defaultPosition, .center)
+    }
 }

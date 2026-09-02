@@ -26,6 +26,15 @@ public enum PopupContent {
         }
     }
 
+    public var defaultPosition: PopupPosition {
+        switch self {
+        case .error, .success:
+            return .top
+        case .loading, .generic:
+            return .center
+        }
+    }
+
     public var accessibilityLabel: String {
         switch self {
         case .error(let message):
