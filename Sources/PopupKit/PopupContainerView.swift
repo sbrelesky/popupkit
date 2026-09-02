@@ -10,6 +10,9 @@ struct PopupContainerView: View {
     let dismiss: () -> Void
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var dragOffset: CGFloat = 0
+
+    private let dismissThreshold: CGFloat = 80
 
     var body: some View {
         ZStack(alignment: alignment) {
@@ -21,7 +24,7 @@ struct PopupContainerView: View {
                     }
                 }
 
-            positionedPopupView
+            draggablePopupView
                 .transition(popupTransition)
         }
         .onAppear {
@@ -29,6 +32,50 @@ struct PopupContainerView: View {
             UIAccessibility.post(notification: .screenChanged, argument: content.accessibilityLabel)
             #endif
         }
+    }
+
+    @ViewBuilder
+    private var draggablePopupView: some View {
+        if content.isDismissibleByTapOutside {
+            positionedPopupView
+                .offset(y: dragOffset)
+                .gesture(dragGesture)
+        } else {
+            positionedPopupView
+        }
+    }
+
+    private var dragGesture: some Gesture {
+        DragGesture()
+            .onChanged { value in
+                dragOffset = rubberBandedOffset(for: value.translation.height)
+            }
+            .onEnded { value in
+                let distance = signedAllowedTranslation(value.translation.height)
+                let predicted = signedAllowedTranslation(value.predictedEndTranslation.height)
+                if distance > dismissThreshold || predicted > dismissThreshold {
+                    dismiss()
+                } else {
+                    withAnimation(.interactiveSpring()) {
+                        dragOffset = 0
+                    }
+                }
+            }
+    }
+
+    /// Projects a raw drag translation onto the popup's single allowed
+    /// dismiss axis. Positive means "moving toward dismiss."
+    private func signedAllowedTranslation(_ rawTranslation: CGFloat) -> CGFloat {
+        switch position.dragDismissDirection {
+        case .up: return -rawTranslation
+        case .down: return rawTranslation
+        }
+    }
+
+    /// Follows the finger 1:1 while dragging toward the dismiss direction;
+    /// resists (rubber-bands) while dragging away from it.
+    private func rubberBandedOffset(for rawTranslation: CGFloat) -> CGFloat {
+        signedAllowedTranslation(rawTranslation) >= 0 ? rawTranslation : rawTranslation * 0.2
     }
 
     private var alignment: Alignment {
@@ -44,14 +91,14 @@ struct PopupContainerView: View {
         switch position {
         case .top:
             popupView
-                .padding(.horizontal, 32)
+                .padding(.horizontal, 8)
                 .padding(.top, 24)
         case .center:
             popupView
                 .padding(.horizontal, 32)
         case .bottom:
             popupView
-                .padding(.horizontal, 32)
+                .padding(.horizontal, 8)
                 .padding(.bottom, 24)
         }
     }
