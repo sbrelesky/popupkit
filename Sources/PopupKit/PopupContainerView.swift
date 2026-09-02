@@ -6,10 +6,13 @@ import UIKit
 struct PopupContainerView: View {
     let content: PopupContent
     let theme: PopupTheme
+    let position: PopupPosition
     let dismiss: () -> Void
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     var body: some View {
-        ZStack {
+        ZStack(alignment: alignment) {
             Color.black.opacity(0.4)
                 .ignoresSafeArea()
                 .onTapGesture {
@@ -18,14 +21,52 @@ struct PopupContainerView: View {
                     }
                 }
 
-            popupView
-                .padding(.horizontal, 32)
-                .transition(.scale.combined(with: .opacity))
+            positionedPopupView
+                .transition(popupTransition)
         }
         .onAppear {
             #if canImport(UIKit)
             UIAccessibility.post(notification: .screenChanged, argument: content.accessibilityLabel)
             #endif
+        }
+    }
+
+    private var alignment: Alignment {
+        switch position {
+        case .top: return .top
+        case .center: return .center
+        case .bottom: return .bottom
+        }
+    }
+
+    @ViewBuilder
+    private var positionedPopupView: some View {
+        switch position {
+        case .top:
+            popupView
+                .padding(.horizontal, 32)
+                .padding(.top, 24)
+        case .center:
+            popupView
+                .padding(.horizontal, 32)
+        case .bottom:
+            popupView
+                .padding(.horizontal, 32)
+                .padding(.bottom, 24)
+        }
+    }
+
+    private var popupTransition: AnyTransition {
+        if reduceMotion {
+            return .opacity
+        }
+        switch position {
+        case .top:
+            return .move(edge: .top).combined(with: .opacity)
+        case .center:
+            return .scale.combined(with: .opacity)
+        case .bottom:
+            return .move(edge: .bottom).combined(with: .opacity)
         }
     }
 
