@@ -91,6 +91,20 @@ someView.popupTheme(
 
 Set once, applies to every PopupKit popup below it in the view hierarchy.
 
+`PopupTheme` also lets you customize icon colors and fonts:
+
+```swift
+PopupTheme(
+    errorIconColor: .orange,
+    successIconColor: .mint,
+    titleFont: .system(.headline, design: .rounded),
+    messageFont: .custom("YourFont-Regular", size: 16)
+)
+```
+
+`titleFont` and `messageFont` take a `Font`, so you can pass either a
+system design variant or a bundled custom font.
+
 > **Note:** `.popupTheme` only affects `.popupKit` calls it's an
 > ancestor of in the view hierarchy — apply it at the root of your app
 > (e.g. on the view passed to `WindowGroup`) rather than after your
