@@ -15,7 +15,7 @@ struct PopupBannerView: View {
 
             if let message {
                 Text(message)
-                    .font(.subheadline)
+                    .font(theme.messageFont)
                     .foregroundStyle(theme.messageColor)
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)

@@ -9,9 +9,9 @@ struct ErrorPopupView: View {
         VStack(spacing: 12) {
             Image(systemName: theme.errorIcon)
                 .font(.system(size: 32))
-                .foregroundStyle(.red)
+                .foregroundStyle(theme.errorIconColor)
             Text(message)
-                .font(.body)
+                .font(theme.messageFont)
                 .foregroundStyle(theme.messageColor)
                 .multilineTextAlignment(.center)
             Button("Dismiss", action: dismiss)

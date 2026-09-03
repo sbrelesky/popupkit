@@ -10,10 +10,10 @@ struct GenericPopupView: View {
     var body: some View {
         VStack(spacing: 12) {
             Text(title)
-                .font(.headline)
+                .font(theme.titleFont)
                 .foregroundStyle(theme.titleColor)
             Text(message)
-                .font(.body)
+                .font(theme.messageFont)
                 .foregroundStyle(theme.messageColor)
                 .multilineTextAlignment(.center)
             HStack(spacing: 12) {

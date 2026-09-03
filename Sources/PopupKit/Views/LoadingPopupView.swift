@@ -10,7 +10,7 @@ struct LoadingPopupView: View {
                 .tint(theme.loadingTintColor)
             if let message {
                 Text(message)
-                    .font(.body)
+                    .font(theme.messageFont)
                     .foregroundStyle(theme.messageColor)
                     .multilineTextAlignment(.center)
             }

@@ -10,4 +10,20 @@ final class PopupThemeTests: XCTestCase {
         XCTAssertFalse(PopupTheme.default.errorIcon.isEmpty)
         XCTAssertFalse(PopupTheme.default.successIcon.isEmpty)
     }
+
+    func test_defaultTheme_hasRedErrorIconColor() {
+        XCTAssertEqual(PopupTheme.default.errorIconColor, .red)
+    }
+
+    func test_defaultTheme_hasGreenSuccessIconColor() {
+        XCTAssertEqual(PopupTheme.default.successIconColor, .green)
+    }
+
+    func test_defaultTheme_hasHeadlineTitleFont() {
+        XCTAssertEqual(PopupTheme.default.titleFont, .headline)
+    }
+
+    func test_defaultTheme_hasBodyMessageFont() {
+        XCTAssertEqual(PopupTheme.default.messageFont, .body)
+    }
 }

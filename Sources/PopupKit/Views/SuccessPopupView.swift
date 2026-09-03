@@ -9,9 +9,9 @@ struct SuccessPopupView: View {
         VStack(spacing: 12) {
             Image(systemName: theme.successIcon)
                 .font(.system(size: 32))
-                .foregroundStyle(.green)
+                .foregroundStyle(theme.successIconColor)
             Text(message)
-                .font(.body)
+                .font(theme.messageFont)
                 .foregroundStyle(theme.messageColor)
                 .multilineTextAlignment(.center)
             Button("Dismiss", action: dismiss)

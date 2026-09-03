@@ -9,6 +9,10 @@ public struct PopupTheme: Sendable {
     public var errorIcon: String
     public var successIcon: String
     public var loadingTintColor: Color
+    public var errorIconColor: Color
+    public var successIconColor: Color
+    public var titleFont: Font
+    public var messageFont: Font
 
     public init(
         backgroundColor: Color? = nil,
@@ -18,7 +22,11 @@ public struct PopupTheme: Sendable {
         cornerRadius: CGFloat = 16,
         errorIcon: String = "exclamationmark.triangle.fill",
         successIcon: String = "checkmark.circle.fill",
-        loadingTintColor: Color = .accentColor
+        loadingTintColor: Color = .accentColor,
+        errorIconColor: Color = .red,
+        successIconColor: Color = .green,
+        titleFont: Font = .headline,
+        messageFont: Font = .body
     ) {
         self.backgroundColor = backgroundColor ?? Self.defaultBackgroundColor
         self.titleColor = titleColor
@@ -28,6 +36,10 @@ public struct PopupTheme: Sendable {
         self.errorIcon = errorIcon
         self.successIcon = successIcon
         self.loadingTintColor = loadingTintColor
+        self.errorIconColor = errorIconColor
+        self.successIconColor = successIconColor
+        self.titleFont = titleFont
+        self.messageFont = messageFont
     }
 
     public static let `default` = PopupTheme()

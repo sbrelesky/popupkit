@@ -126,7 +126,7 @@ struct PopupContainerView: View {
             } else {
                 PopupBannerView(
                     icon: theme.errorIcon,
-                    iconColor: .red,
+                    iconColor: theme.errorIconColor,
                     message: message,
                     theme: theme,
                     isDismissible: true,
@@ -140,7 +140,7 @@ struct PopupContainerView: View {
             } else {
                 PopupBannerView(
                     icon: theme.successIcon,
-                    iconColor: .green,
+                    iconColor: theme.successIconColor,
                     message: message,
                     theme: theme,
                     isDismissible: true,
