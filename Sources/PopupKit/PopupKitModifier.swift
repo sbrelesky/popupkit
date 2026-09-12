@@ -5,6 +5,8 @@ private struct PopupKitModifier: ViewModifier {
     let content: PopupContent
     let position: PopupPosition?
     @Environment(\.popupTheme) private var theme
+    @Environment(\.popupPresentationCoordinator) private var coordinator
+    @State private var token = UUID()
 
     func body(content base: Content) -> some View {
         base.overlay {
@@ -19,6 +21,13 @@ private struct PopupKitModifier: ViewModifier {
             }
         }
         .animation(.easeInOut(duration: 0.2), value: isPresented)
+        .onChange(of: isPresented) { newValue in
+            if newValue {
+                coordinator.present(token: token) { isPresented = false }
+            } else {
+                coordinator.clear(token: token)
+            }
+        }
     }
 }
 
