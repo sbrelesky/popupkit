@@ -81,6 +81,10 @@ Override the default when you need to:
 Reduce Motion is respected automatically — all transitions collapse to
 a plain fade when enabled.
 
+Only one popup is shown at a time: presenting a second popup while
+another is already visible replaces it immediately rather than stacking
+them or queueing the new one behind the first.
+
 ## Theming
 
 ```swift
